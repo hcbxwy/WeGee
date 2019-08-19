@@ -1,25 +1,19 @@
-# WeGee
-
-## 项目简介
-微记，即小小笔记，类似个人博客系统。本项目主要用于个人学习Spring Cloud和Vue。
+# WeGee-cloud
+微记项目的后台服务项目，基于Spring Cloud。
 
 ## 目录结构
 
 ```
-|—WeGee
+|—WeGee-cloud
 |   |
-|   |—wegee-cloud   后台Spring Cloud微服务
+|   |—wegee-service
 |   |   |
-|   |—wegee-vue     前台vue项目
+|   |   |—service-system
 
 ```
 
-## 时间轴
-1. 计划2019-08-31日上线v0.0.1，包括后台管理系统的登录、登出和首页功能
-
 ## 技术选型
-1. 后端使用Spring Cloud技术栈
-2. 前端使用Vue技术栈
+1. Spring Boot 2.1.7.RELEASE
 
 ## 本地构建
 列出本地开发过程中所用到的工具命令；
