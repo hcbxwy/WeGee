@@ -10,6 +10,7 @@ package com.hcbxwy.wegee.common.handler;
 
 import com.hcbxwy.wegee.common.entity.ResultError;
 import com.hcbxwy.wegee.common.exception.BusinessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 /**
  * 统一异常处理器
@@ -38,8 +40,8 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
      */
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResultError handleConstraintViolationException(ConstraintViolationException e, HttpServletRequest request) {
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResultError handleConstraintViolationException(DuplicateKeyException e, HttpServletRequest request) {
         return super.handleConstraintViolationException(e, request);
     }
 

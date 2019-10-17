@@ -21,5 +21,5 @@ public interface UserService extends IService<User> {
      * @author Billson
      * @since 2019/10/14 20:53
      */
-    void register(RegisterVO registerVO);
+    void saveUser(RegisterVO registerVO);
 }

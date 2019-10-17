@@ -14,6 +14,7 @@ import com.hcbxwy.wegee.common.exception.BusinessException;
 import com.hcbxwy.wegee.common.entity.InvalidParameterItem;
 import com.hcbxwy.wegee.common.helper.InvalidParameterItemHelper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 /**
@@ -36,12 +38,12 @@ public class BaseGlobalExceptionHandler {
     /**
      * 处理违反约束异常
      */
-    protected ResultError handleConstraintViolationException(ConstraintViolationException e,
+    protected ResultError handleConstraintViolationException(DuplicateKeyException e,
                                                              HttpServletRequest request) {
         log.info("handleConstraintViolationException start, uri:{}, caused by: ", request.getRequestURI(), e);
-        List<InvalidParameterItem> itemList =
-                InvalidParameterItemHelper.convertCVSetToInvalidParameterItemList(e.getConstraintViolations());
-        return ResultError.failure(ResultEnum.INVALID_PARAMETER, e, HttpStatus.BAD_REQUEST, itemList);
+//        List<InvalidParameterItem> itemList =
+//                InvalidParameterItemHelper.convertCVSetToInvalidParameterItemList(e.getMessage());
+        return ResultError.failure(ResultEnum.INVALID_PARAMETER, e, HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     /**

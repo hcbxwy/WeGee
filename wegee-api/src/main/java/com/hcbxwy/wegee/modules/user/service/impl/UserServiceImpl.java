@@ -44,8 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
      * @since 2019/10/14 20:53
      */
     @Override
-    @Transactional(rollbackFor = BusinessException.class)
-    public void register(RegisterVO registerVO) {
+    public void saveUser(RegisterVO registerVO) {
         // 生成用户记录
         User user = new User();
         user.setNickname(registerVO.getAccount());

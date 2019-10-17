@@ -40,7 +40,7 @@ public class UserController {
      */
     @PostMapping("/register")
     public String register(@RequestBody @Valid RegisterVO registerVO){
-        userService.register(registerVO);
+        userService.saveUser(registerVO);
         return "注册成功";
     }
 }

@@ -44,7 +44,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(responseBodyConverter());
-        // 这里必须加上加载默认转换器，不然bug玩死人
+        // 这里必须加上加载默认转换器，否则bug玩死人
         addDefaultHttpMessageConverters(converters);
     }
 
