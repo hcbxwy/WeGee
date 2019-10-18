@@ -3,7 +3,6 @@ package com.hcbxwy.wegee.common.handler;
 import com.alibaba.fastjson.JSONObject;
 import com.hcbxwy.wegee.common.annotation.ResultResponse;
 import com.hcbxwy.wegee.common.entity.Result;
-import com.hcbxwy.wegee.common.entity.ResultError;
 import com.hcbxwy.wegee.common.interceptor.ResultResponseInterceptor;
 import com.hcbxwy.wegee.common.util.ApplicationContextUtil;
 import org.springframework.core.MethodParameter;
@@ -42,20 +41,13 @@ public class ResultResponseHandler implements ResponseBodyAdvice<Object> {
                 .getAttribute(ResultResponseInterceptor.RESULT_RESPONSE);
         Class<?> resultClazz = resultResponse.value();
         if (resultClazz.isAssignableFrom(Result.class)) {
-            if (body instanceof ResultError) {
-                ResultError resultError = (ResultError) body;
-                return ResultError.builder()
-                        .code(resultError.getCode())
-                        .message(resultError.getMessage())
-                        .errors(resultError.getErrors())
-                        .build();
+            if (body instanceof Result) {
+                return body;
             } else if (body instanceof String) {
                 return JSONObject.toJSONString(Result.success(body));
             }
-
             return Result.success(body);
         }
-
         return body;
     }
 }

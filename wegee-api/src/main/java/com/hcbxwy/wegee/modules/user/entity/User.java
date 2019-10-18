@@ -2,6 +2,7 @@ package com.hcbxwy.wegee.modules.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hcbxwy.wegee.common.entity.BaseEntity;
+import com.hcbxwy.wegee.modules.user.enums.Gender;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -35,7 +36,7 @@ public class User extends BaseEntity {
     /**
      * 性别：0 女，1 男，2 不详
      */
-    private Integer gender;
+    private Gender gender;
 
 
     public static final String NICKNAME = "nickname";

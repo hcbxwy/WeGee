@@ -3,9 +3,9 @@
 /*==============================================================*/
 create table wg_user
 (
-   id                   bigint not null auto_increment comment '主键',
-   nickname             varchar(50) not null comment '昵称',
-   avatar_url           varchar(255) comment '头像',
+   id                   int unsigned not null auto_increment comment '主键',
+   nickname             varchar(20) not null comment '昵称',
+   avatar_url           varchar(100) comment '头像',
    gender               tinyint unsigned default 2 comment '性别：0 女，1 男，2 不详',
    create_time          datetime default CURRENT_TIMESTAMP comment '创建时间',
    update_time          datetime default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
@@ -19,9 +19,9 @@ alter table wg_user comment '用户表';
 /*==============================================================*/
 create table wg_user_account
 (
-   id                   bigint not null auto_increment comment '主键',
-   user_id              bigint not null comment '用户ID',
-   account_type         tinyint unsigned default 0 comment '账号类型：0  默认，1  微信，2  微博，3  QQ',
+   id                   int unsigned not null auto_increment comment '主键',
+   user_id              int unsigned not null comment '用户ID',
+   account_type         tinyint unsigned default 0 comment '账号类型：0  站内账号，1  微信，2  微博，3  QQ',
    account              varchar(50) not null comment '账号',
    salt                 varchar(8) comment '密码盐',
    password             varchar(512) comment '密码',

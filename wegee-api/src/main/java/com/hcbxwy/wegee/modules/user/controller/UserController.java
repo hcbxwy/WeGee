@@ -34,13 +34,11 @@ public class UserController {
      * 用户注册
      *
      * @param registerVO	用户注册信息VO
-     * @return java.lang.String
      * @author Billson
      * @since 2019/10/14 20:50
      */
     @PostMapping("/register")
-    public String register(@RequestBody @Valid RegisterVO registerVO){
+    public void register(@RequestBody @Valid RegisterVO registerVO){
         userService.saveUser(registerVO);
-        return "注册成功";
     }
 }

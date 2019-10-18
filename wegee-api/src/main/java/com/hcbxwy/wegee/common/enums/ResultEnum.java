@@ -1,11 +1,16 @@
 package com.hcbxwy.wegee.common.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 接口返回码枚举类
  *
  * @author Billson
  * @since 2019/9/10 20:05
  */
+@Getter
+@AllArgsConstructor
 public enum ResultEnum {
 
     /**
@@ -19,7 +24,11 @@ public enum ResultEnum {
     PERMISSION_DENIED(403, "客户端权限不足。可能的原因包括 OAuth 令牌的覆盖范围不正确、客户端没有权限或者尚未为客户端项目启用 API"),
     NOT_FOUND(404, "找不到指定的资源，或者请求由于未公开的原因（例如白名单）而被拒绝"),
     ABORTED(409, "并发冲突，例如读取/修改/写入冲突"),
+
+    // 资源已存在
     ALREADY_EXISTS(409, "客户端尝试创建的资源已存在"),
+    ALREADY_EXISTS_ACCOUNT(409001, "该账号已被注册"),
+
     RESOURCE_EXHAUSTED(429, "资源配额不足或达到速率限制"),
     CANCELLED(499, "请求被客户端取消"),
     DATA_LOSS(500, "出现不可恢复的数据丢失或数据损坏"),
@@ -30,19 +39,5 @@ public enum ResultEnum {
     DEADLINE_EXCEEDED(500, "超出请求时限。仅当调用者设置的时限比方法的默认时限短（即请求的时限不足以让服务器处理请求）并且请求未在时限范围内完成时，才会发生这种情况");
 
     private Integer code;
-
     private String message;
-
-    ResultEnum(Integer code, String message) {
-        this.code = code;
-        this.message = message;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

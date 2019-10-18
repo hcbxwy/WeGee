@@ -8,22 +8,22 @@
  */
 package com.hcbxwy.wegee.common.handler;
 
-import com.hcbxwy.wegee.common.entity.ResultError;
-import com.hcbxwy.wegee.common.exception.BusinessException;
+import com.hcbxwy.wegee.common.entity.InvalidParameterItem;
+import com.hcbxwy.wegee.common.entity.Result;
+import com.hcbxwy.wegee.common.enums.DuplicateKeyEnum;
+import com.hcbxwy.wegee.common.enums.ResultEnum;
+import com.hcbxwy.wegee.common.helper.InvalidParameterItemHelper;
+import com.hcbxwy.wegee.common.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.ConstraintViolationException;
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 /**
  * 统一异常处理器
@@ -31,60 +31,64 @@ import java.sql.SQLIntegrityConstraintViolationException;
  * @author Billson
  * @since 2019/4/22 17:12
  */
-@RestController
-@ControllerAdvice
-public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
+@Slf4j
+@RestControllerAdvice
+public class GlobalExceptionHandler {
 
     /**
-     * 处理400类异常
+     * 处理违反唯一约束异常
      */
-    @Override
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(DuplicateKeyException.class)
-    public ResultError handleConstraintViolationException(DuplicateKeyException e, HttpServletRequest request) {
-        return super.handleConstraintViolationException(e, request);
+    public Result handleDuplicateKeyException(DuplicateKeyException e, HttpServletRequest request) {
+        log.info("处理违反唯一约束异常, uri:{}, caused by: ", request.getRequestURI(), e);
+        String message = e.getMessage();
+        for (DuplicateKeyEnum duplicateKeyEnum : DuplicateKeyEnum.values()) {
+            if (StringUtils.contains(message, duplicateKeyEnum.getKey())) {
+                return Result.failure(duplicateKeyEnum.getValue());
+            }
+        }
+        return Result.failure(ResultEnum.ALREADY_EXISTS);
     }
 
-    @Override
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    /**
+     * 处理验证参数封装错误时异常
+     */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResultError handleConstraintViolationException(HttpMessageNotReadableException e,
-                                                          HttpServletRequest request) {
-        return super.handleConstraintViolationException(e, request);
+    public Result handleConstraintViolationException(HttpMessageNotReadableException e,
+                                                     HttpServletRequest request) {
+        log.info("handleConstraintViolationException start, uri:{}, caused by: ", request.getRequestURI(), e);
+        return Result.failure(ResultEnum.INVALID_PARAMETER);
     }
 
-    @Override
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    /**
+     * 处理参数绑定时异常（返回400错误码）
+     */
     @ExceptionHandler(BindException.class)
-    public ResultError handleBindException(BindException e, HttpServletRequest request) {
-        return super.handleBindException(e, request);
+    public Result handleBindException(BindException e, HttpServletRequest request) {
+        log.info("handleBindException start, uri:{}, caused by: ", request.getRequestURI(), e);
+        List<InvalidParameterItem> itemList =
+                InvalidParameterItemHelper.convertBindingResultToMapInvalidParameterItemList(e.getBindingResult());
+        return Result.failure(ResultEnum.INVALID_PARAMETER, itemList);
     }
 
-    @Override
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    /**
+     * 处理使用@Valid 注解时，参数验证错误异常（返回400错误码）
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultError handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
-                                                             HttpServletRequest request) {
-        return super.handleMethodArgumentNotValidException(e, request);
+    public Result handleMethodArgumentNotValidException(MethodArgumentNotValidException e,
+                                                        HttpServletRequest request) {
+        log.info("处理参数校验异常, uri:{}, caused by: ", request.getRequestURI(), e);
+        List<InvalidParameterItem> itemList =
+                InvalidParameterItemHelper.convertBindingResultToMapInvalidParameterItemList(e.getBindingResult());
+        return Result.failure(ResultEnum.INVALID_PARAMETER, itemList);
     }
 
     /**
-     * 处理自定义异常
+     * 处理未预测到的其他错误（返回500错误码）
      */
-    @Override
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ResultError> handleBusinessException(BusinessException e, HttpServletRequest request) {
-        return super.handleBusinessException(e, request);
-    }
-
-    /**
-     * 处理运行时异常
-     */
-    @Override
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Throwable.class)
-    public ResultError handleThrowable(Throwable e, HttpServletRequest request) {
-        //TODO 可通过邮件、微信公众号等方式发送信息至开发人员、记录存档等操作
-        return super.handleThrowable(e, request);
+    public Result handleThrowable(Throwable e, HttpServletRequest request) {
+        log.error("handleThrowable start, uri:{}, caused by: ", request.getRequestURI(), e);
+        return Result.failure(ResultEnum.INTERNAL);
     }
 }

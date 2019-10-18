@@ -1,7 +1,10 @@
 package com.hcbxwy.wegee.modules.user.entity;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.hcbxwy.wegee.common.entity.BaseEntity;
+import com.hcbxwy.wegee.modules.user.enums.AccountStatus;
+import com.hcbxwy.wegee.modules.user.enums.AccountType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,12 +28,12 @@ public class UserAccount extends BaseEntity {
     /**
      * 用户ID
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 账号类型：0  默认，1  微信，2  微博，3  QQ
      */
-    private Integer accountType;
+    private AccountType accountType;
 
     /**
      * 账号
@@ -55,7 +58,7 @@ public class UserAccount extends BaseEntity {
     /**
      * 状态：0 正常，1 未认证，2 已过期，3 已冻结，4 已作废
      */
-    private Integer status;
+    private AccountStatus status;
 
     /**
      * 联合ID（主要是微信和QQ）

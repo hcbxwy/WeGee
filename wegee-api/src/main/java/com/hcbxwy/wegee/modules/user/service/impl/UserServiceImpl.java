@@ -2,21 +2,16 @@ package com.hcbxwy.wegee.modules.user.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
-import com.hcbxwy.wegee.common.constant.AccountType;
-import com.hcbxwy.wegee.common.exception.BusinessException;
-import com.hcbxwy.wegee.modules.user.dao.UserAccountDao;
 import com.hcbxwy.wegee.modules.user.entity.User;
 import com.hcbxwy.wegee.modules.user.dao.UserDao;
 import com.hcbxwy.wegee.modules.user.entity.UserAccount;
+import com.hcbxwy.wegee.modules.user.enums.AccountType;
 import com.hcbxwy.wegee.modules.user.service.UserAccountService;
 import com.hcbxwy.wegee.modules.user.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hcbxwy.wegee.modules.user.vo.RegisterVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 /**
  * <p>
@@ -54,7 +49,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
         UserAccount userAccount = new UserAccount();
         String salt = RandomUtil.randomString(8);
         userAccount.setUserId(user.getId())
-                .setAccountType(AccountType.DEFAULT)
+                .setAccountType(AccountType.WECHAT)
                 .setAccount(registerVO.getAccount())
                 .setSalt(salt)
                 .setPassword(SecureUtil.md5(salt + registerVO.getPassword()));

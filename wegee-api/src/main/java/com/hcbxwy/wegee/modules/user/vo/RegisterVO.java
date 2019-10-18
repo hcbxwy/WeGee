@@ -13,8 +13,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class RegisterVO {
 
-    @NotBlank(message = "请输入账号/手机号/邮箱")
+    @NotBlank(message = "本字段必须有值")
     private String account;
-    @NotBlank(message = "请输入密码")
+    @NotBlank(message = "本字段必须有值")
     private String password;
 }

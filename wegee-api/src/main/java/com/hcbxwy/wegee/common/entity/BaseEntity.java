@@ -15,9 +15,9 @@ import java.util.Date;
 @Data
 public class BaseEntity {
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private Integer id;
     private Date createTime;
     private Date updateTime;
-    private String createBy;
-    private String updateBy;
+    private String creatorId;
+    private String updaterId;
 }
