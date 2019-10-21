@@ -23,7 +23,7 @@ create table wg_user_account
    user_id              int unsigned not null comment '用户ID',
    account_type         tinyint unsigned default 0 comment '账号类型：0  站内账号，1  微信，2  微博，3  QQ',
    account              varchar(50) not null comment '账号',
-   salt                 varchar(8) comment '密码盐',
+   salt                 varchar(4) comment '密码盐',
    password             varchar(512) comment '密码',
    expired              int unsigned comment '有效期（秒）',
    status               tinyint unsigned default 0 comment '状态：0 正常，1 未认证，2 已过期，3 已冻结，4 已作废',

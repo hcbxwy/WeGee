@@ -47,7 +47,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
 
         // 生成用户账号
         UserAccount userAccount = new UserAccount();
-        String salt = RandomUtil.randomString(8);
+        String salt = RandomUtil.randomString(4);
         userAccount.setUserId(user.getId())
                 .setAccountType(AccountType.WECHAT)
                 .setAccount(registerVO.getAccount())

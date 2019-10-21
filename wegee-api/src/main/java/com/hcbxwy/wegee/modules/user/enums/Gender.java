@@ -16,8 +16,8 @@ public enum Gender implements IEnum<Integer> {
     /**
      * 女
      */
-    FEMAIL(0, "女"),
-    MAIL(1, "男"),
+    FEMALE(0, "女"),
+    MALE(1, "男"),
     UNKNOWN(2, "不详");
 
     private int value;
