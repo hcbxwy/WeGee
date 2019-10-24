@@ -1,5 +1,3 @@
-drop table if exists wg_user;
-
 /*==============================================================*/
 /* Table: wg_user                                               */
 /*==============================================================*/
@@ -8,17 +6,13 @@ create table wg_user
    id                   int unsigned not null auto_increment comment '主键',
    nickname             varchar(20) not null comment '昵称',
    avatar_url           varchar(100) comment '头像',
-   gender               tinyint unsigned default 2 comment '性别：0 女，1 男，2 不详',
-   create_time          datetime default CURRENT_TIMESTAMP comment '创建时间',
-   update_time          datetime default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
+   gender               tinyint unsigned not null default 2 comment '性别：0 女，1 男，2 不详',
+   create_time          datetime not null default CURRENT_TIMESTAMP comment '创建时间',
+   update_time          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
    primary key (id)
 );
 
 alter table wg_user comment '用户表';
-
-drop index uk_account on wg_user_account;
-
-drop table if exists wg_user_account;
 
 /*==============================================================*/
 /* Table: wg_user_account                                       */
@@ -27,15 +21,15 @@ create table wg_user_account
 (
    id                   int unsigned not null auto_increment comment '主键',
    user_id              int unsigned not null comment '用户ID',
-   account_type         tinyint unsigned default 0 comment '账号类型：0  站内账号，1  微信，2  微博，3  QQ',
+   account_type         tinyint unsigned not null default 0 comment '账号类型：0  站内账号，1  微信，2  微博，3  QQ',
    account              varchar(50) not null comment '账号',
    salt                 varchar(4) comment '密码盐',
-   password             varchar(512) comment '密码',
+   password             varchar(512) not null comment '密码',
    expired              int unsigned comment '有效期（秒）',
-   status               tinyint unsigned default 0 comment '状态：0 正常，1 未认证，2 已过期，3 已冻结，4 已作废',
+   status               tinyint unsigned not null default 0 comment '状态：0 正常，1 未认证，2 已过期，3 已冻结，4 已作废',
    union_id             varchar(32) comment '联合ID（主要是微信和QQ）',
-   create_time          datetime default CURRENT_TIMESTAMP comment '创建时间',
-   update_time          datetime default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
+   create_time          datetime not null default CURRENT_TIMESTAMP comment '创建时间',
+   update_time          datetime not null default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP comment '修改时间',
    primary key (id)
 );
 
