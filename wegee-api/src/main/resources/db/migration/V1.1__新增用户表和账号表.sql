@@ -1,3 +1,5 @@
+drop table if exists wg_user;
+
 /*==============================================================*/
 /* Table: wg_user                                               */
 /*==============================================================*/
@@ -13,6 +15,10 @@ create table wg_user
 );
 
 alter table wg_user comment '用户表';
+
+drop index uk_account on wg_user_account;
+
+drop table if exists wg_user_account;
 
 /*==============================================================*/
 /* Table: wg_user_account                                       */
