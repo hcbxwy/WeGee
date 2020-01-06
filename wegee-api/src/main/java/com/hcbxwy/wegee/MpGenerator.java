@@ -16,7 +16,7 @@ public class MpGenerator {
     /**
      * 基本输出路径，项目地址
      */
-    private static final String BASE_OUT_PATH = "D:\\code";
+    private static final String BASE_OUT_PATH = "D:\\code\\generate\\wegee\\src\\main\\java";
     private static final String AUTHOR = "Billson";
     private static final String MODULE_NAME = "user";
     private static final String TABLE_NAME = "wg_user_account";
